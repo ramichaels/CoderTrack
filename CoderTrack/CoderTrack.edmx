@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RJAssocModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Assessment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Description" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyCode" />
+          </Key>
+          <Property Name="CompanyCode" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="40" />
+          <Property Name="Address" Type="nchar" MaxLength="40" />
+          <Property Name="City" Type="nchar" MaxLength="40" />
+          <Property Name="State" Type="nchar" MaxLength="2" />
+          <Property Name="Zip" Type="nchar" MaxLength="10" />
+          <Property Name="Phone" Type="nchar" MaxLength="10" />
+          <Property Name="Fax" Type="nchar" MaxLength="10" />
+          <Property Name="ContactName" Type="nchar" MaxLength="40" />
+          <Property Name="ContactEmail" Type="nchar" MaxLength="40" />
+          <Property Name="url" Type="nchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Lname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address1" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address2" Type="nvarchar" MaxLength="50" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="State" Type="nchar" MaxLength="2" />
+          <Property Name="Zip" Type="nchar" MaxLength="10" />
+          <Property Name="Phone" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="MRN">
+          <Key>
+            <PropertyRef Name="MRN" />
+          </Key>
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="ChartNo" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="CompanyCode" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="MRN" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="AssessmentID" Type="int" Nullable="false" />
+          <Property Name="DateReceived" Type="date" Nullable="false" />
+          <Property Name="DateCompleted" Type="date" />
+          <Property Name="TotalPay" Type="money" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_MRN_Assessment">
+          <End Role="Assessment" Type="Self.Assessment" Multiplicity="1" />
+          <End Role="MRN" Type="Self.MRN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Assessment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MRN">
+              <PropertyRef Name="AssessmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MRN_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="MRN" Type="Self.MRN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyCode" />
+            </Principal>
+            <Dependent Role="MRN">
+              <PropertyRef Name="CompanyCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RJAssocModelStoreContainer">
+          <EntitySet Name="Assessment" EntityType="Self.Assessment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MRN" EntityType="Self.MRN" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_MRN_Assessment" Association="Self.FK_MRN_Assessment">
+            <End Role="Assessment" EntitySet="Assessment" />
+            <End Role="MRN" EntitySet="MRN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MRN_Company" Association="Self.FK_MRN_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="MRN" EntitySet="MRN" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RJAssocModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Assessment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Description" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="MRNs" Relationship="Self.FK_MRN_Assessment" FromRole="Assessment" ToRole="MRN" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyCode" />
+          </Key>
+          <Property Name="CompanyCode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="Zip" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ContactName" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="ContactEmail" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="url" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="MRNs" Relationship="Self.FK_MRN_Company" FromRole="Company" ToRole="MRN" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Lname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="Zip" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MRN">
+          <Key>
+            <PropertyRef Name="MRN1" />
+          </Key>
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ChartNo" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="CompanyCode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="MRN1" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="AssessmentID" Type="Int32" Nullable="false" />
+          <Property Name="DateReceived" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateCompleted" Type="DateTime" Precision="0" />
+          <Property Name="TotalPay" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Assessment" Relationship="Self.FK_MRN_Assessment" FromRole="MRN" ToRole="Assessment" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_MRN_Company" FromRole="MRN" ToRole="Company" />
+        </EntityType>
+        <Association Name="FK_MRN_Assessment">
+          <End Role="Assessment" Type="Self.Assessment" Multiplicity="1" />
+          <End Role="MRN" Type="Self.MRN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Assessment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MRN">
+              <PropertyRef Name="AssessmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MRN_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="MRN" Type="Self.MRN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyCode" />
+            </Principal>
+            <Dependent Role="MRN">
+              <PropertyRef Name="CompanyCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RJAssocEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Assessments" EntityType="Self.Assessment" />
+          <EntitySet Name="Companies" EntityType="Self.Company" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="MRNs" EntityType="Self.MRN" />
+          <AssociationSet Name="FK_MRN_Assessment" Association="Self.FK_MRN_Assessment">
+            <End Role="Assessment" EntitySet="Assessments" />
+            <End Role="MRN" EntitySet="MRNs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MRN_Company" Association="Self.FK_MRN_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="MRN" EntitySet="MRNs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RJAssocModelStoreContainer" CdmEntityContainer="RJAssocEntities1">
+          <EntitySetMapping Name="Assessments">
+            <EntityTypeMapping TypeName="RJAssocModel.Assessment">
+              <MappingFragment StoreEntitySet="Assessment">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="RJAssocModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+                <ScalarProperty Name="url" ColumnName="url" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="RJAssocModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Fname" ColumnName="Fname" />
+                <ScalarProperty Name="Lname" ColumnName="Lname" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MRNs">
+            <EntityTypeMapping TypeName="RJAssocModel.MRN">
+              <MappingFragment StoreEntitySet="MRN">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ChartNo" ColumnName="ChartNo" />
+                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+                <ScalarProperty Name="MRN1" ColumnName="MRN" />
+                <ScalarProperty Name="AssessmentID" ColumnName="AssessmentID" />
+                <ScalarProperty Name="DateReceived" ColumnName="DateReceived" />
+                <ScalarProperty Name="DateCompleted" ColumnName="DateCompleted" />
+                <ScalarProperty Name="TotalPay" ColumnName="TotalPay" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

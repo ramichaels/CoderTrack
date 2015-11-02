@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CoderTrack.Models;
 
 namespace CoderTrack.Controllers
 {
@@ -10,19 +11,28 @@ namespace CoderTrack.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            CoderModel coder = new CoderModel();
+            coder.FirstName = "Rick";
+            coder.LastName = "Michaels";
+            coder.EmailAddress = "rmichaels@rjandassociatescoding.com";
+
+            string yourEncodedHtml = "<h1>Boo!</h1>";
+            var html = new MvcHtmlString(yourEncodedHtml);
+            ViewBag.HTMLMessage = html;
+            return View(coder);
+
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "RJ and Associates Health Management Solutions";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Contact Us";
 
             return View();
         }

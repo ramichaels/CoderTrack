@@ -1,22 +1,27 @@
-﻿@{
+﻿@using CoderTrack.Models
+@{
     ViewBag.Title = "Home Page";
 }
+@model CoderModel
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">Future Home of RJ Associates Coder Tracking website.</p>
+    <h1>RJ and Associates Health Management Solutions</h1>
+    <p class="lead">Home of RJ and Associates Coder Management</p>
     <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
+        @Model.EmailAddress
+        <h2>Coder of the Month</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            @ViewBag.HTMLMessage
+            <h2>
+                @Model.FullName()
+            </h2>
         </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a>
+        </p>
     </div>
     <div class="col-md-4">
         <h2>Get more libraries</h2>

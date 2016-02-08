@@ -1,0 +1,98 @@
+﻿@model CoderTrack.MRN
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.MRN1)</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.ChartNo)*@
+            Chart No.
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChartNo)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.DateReceived)*@
+            Date Received
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateReceived)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.DateCompleted)*@
+            Date Completed
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateCompleted)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.TotalPay)*@
+            Total Pay
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalPay)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.StatusId)*@
+            Status ID
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status1.Description)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.Assessment.Description)*@
+            Assessment
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Assessment.Description)
+        </dd>
+
+        <dt>
+            @* @Html.DisplayNameFor(model => model.Company.Name)*@
+            Company
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Company.Name)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.Employee.Fname)*@
+            Employee
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee.Fname)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MRN1.Trim() }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

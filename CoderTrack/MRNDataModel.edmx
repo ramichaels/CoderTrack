@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="RJAssocModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="RJAssocModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Assessment">
           <Key>
             <PropertyRef Name="ID" />
@@ -55,6 +55,14 @@
           <Property Name="DateCompleted" Type="date" />
           <Property Name="TotalPay" Type="money" />
           <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="StatusId" />
+          </Key>
+          <Property Name="StatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <Association Name="FK_MRN_Assessment">
           <End Role="Assessment" Type="Self.Assessment" Multiplicity="1" />
@@ -80,11 +88,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MRN_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="MRN" Type="Self.MRN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MRN">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MRN_STATUS">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="MRN" Type="Self.MRN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="MRN">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="RJAssocModelStoreContainer">
           <EntitySet Name="Assessment" EntityType="Self.Assessment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MRN" EntityType="Self.MRN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_MRN_Assessment" Association="Self.FK_MRN_Assessment">
             <End Role="Assessment" EntitySet="Assessment" />
             <End Role="MRN" EntitySet="MRN" />
@@ -93,9 +126,16 @@
             <End Role="Company" EntitySet="Company" />
             <End Role="MRN" EntitySet="MRN" />
           </AssociationSet>
+          <AssociationSet Name="FK_MRN_Employee" Association="Self.FK_MRN_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="MRN" EntitySet="MRN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MRN_STATUS" Association="Self.FK_MRN_STATUS">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="MRN" EntitySet="MRN" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RJAssocModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -137,6 +177,7 @@
           <Property Name="State" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
           <Property Name="Zip" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="MRNs" Relationship="Self.FK_MRN_Employee" FromRole="Employee" ToRole="MRN" />
         </EntityType>
         <EntityType Name="MRN">
           <Key>
@@ -151,8 +192,22 @@
           <Property Name="DateCompleted" Type="DateTime" Precision="0" />
           <Property Name="TotalPay" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Assessment" Relationship="Self.FK_MRN_Assessment" FromRole="MRN" ToRole="Assessment" />
           <NavigationProperty Name="Company" Relationship="Self.FK_MRN_Company" FromRole="MRN" ToRole="Company" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_MRN_Employee" FromRole="MRN" ToRole="Employee" />
+          <NavigationProperty Name="MRN11" Relationship="Self.FK_MRN_Status" FromRole="MRN" ToRole="MRN1" />
+          <NavigationProperty Name="MRN2" Relationship="Self.FK_MRN_Status" FromRole="MRN1" ToRole="MRN" />
+          <NavigationProperty Name="Status" Relationship="RJAssocModel.FK_MRN_Status" FromRole="MRN" ToRole="MRN1" />
+          <NavigationProperty Name="Status1" Relationship="RJAssocModel.FK_MRN_STATUS1" FromRole="MRN" ToRole="Status" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="StatusId" />
+          </Key>
+          <Property Name="StatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MRNs" Relationship="RJAssocModel.FK_MRN_STATUS1" FromRole="Status" ToRole="MRN" />
         </EntityType>
         <Association Name="FK_MRN_Assessment">
           <End Role="Assessment" Type="Self.Assessment" Multiplicity="1" />
@@ -178,11 +233,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="RJAssocEntities1" annotation:LazyLoadingEnabled="true">
+        <Association Name="FK_MRN_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="MRN" Type="Self.MRN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MRN">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MRN_Status">
+          <End Role="MRN" Type="Self.MRN" Multiplicity="1" />
+          <End Role="MRN1" Type="Self.MRN" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MRN">
+              <PropertyRef Name="MRN1" />
+            </Principal>
+            <Dependent Role="MRN1">
+              <PropertyRef Name="MRN1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RJAssocEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Assessments" EntityType="Self.Assessment" />
           <EntitySet Name="Companies" EntityType="Self.Company" />
           <EntitySet Name="Employees" EntityType="Self.Employee" />
           <EntitySet Name="MRNs" EntityType="Self.MRN" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
           <AssociationSet Name="FK_MRN_Assessment" Association="Self.FK_MRN_Assessment">
             <End Role="Assessment" EntitySet="Assessments" />
             <End Role="MRN" EntitySet="MRNs" />
@@ -191,13 +271,37 @@
             <End Role="Company" EntitySet="Companies" />
             <End Role="MRN" EntitySet="MRNs" />
           </AssociationSet>
+          <AssociationSet Name="FK_MRN_Employee" Association="Self.FK_MRN_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="MRN" EntitySet="MRNs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MRN_Status" Association="Self.FK_MRN_Status">
+            <End Role="MRN" EntitySet="MRNs" />
+            <End Role="MRN1" EntitySet="MRNs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MRN_STATUS1" Association="RJAssocModel.FK_MRN_STATUS1">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="MRN" EntitySet="MRNs" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_MRN_STATUS1">
+          <End Type="RJAssocModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="RJAssocModel.MRN" Role="MRN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="MRN">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="RJAssocModelStoreContainer" CdmEntityContainer="RJAssocEntities1">
+        <EntityContainerMapping StorageEntityContainer="RJAssocModelStoreContainer" CdmEntityContainer="RJAssocEntities">
           <EntitySetMapping Name="Assessments">
             <EntityTypeMapping TypeName="RJAssocModel.Assessment">
               <MappingFragment StoreEntitySet="Assessment">
@@ -250,6 +354,15 @@
                 <ScalarProperty Name="DateCompleted" ColumnName="DateCompleted" />
                 <ScalarProperty Name="TotalPay" ColumnName="TotalPay" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="RJAssocModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

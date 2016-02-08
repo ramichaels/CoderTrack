@@ -13,10 +13,10 @@ namespace CoderTrack
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class RJAssocEntities1 : DbContext
+    public partial class RJAssocEntities : DbContext
     {
-        public RJAssocEntities1()
-            : base("name=RJAssocEntities1")
+        public RJAssocEntities()
+            : base("name=RJAssocEntities")
         {
         }
     
@@ -29,5 +29,6 @@ namespace CoderTrack
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<MRN> MRNs { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
     }
 }

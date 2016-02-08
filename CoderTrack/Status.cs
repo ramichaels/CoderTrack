@@ -12,23 +12,16 @@ namespace CoderTrack
     using System;
     using System.Collections.Generic;
     
-    public partial class Employee
+    public partial class Status
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Employee()
+        public Status()
         {
             this.MRNs = new HashSet<MRN>();
         }
     
-        public int Id { get; set; }
-        public string Fname { get; set; }
-        public string Lname { get; set; }
-        public string Address1 { get; set; }
-        public string Address2 { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Zip { get; set; }
-        public string Phone { get; set; }
+        public int StatusId { get; set; }
+        public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MRN> MRNs { get; set; }

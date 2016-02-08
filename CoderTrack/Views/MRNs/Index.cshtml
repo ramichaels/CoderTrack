@@ -1,0 +1,85 @@
+﻿@model IEnumerable<CoderTrack.MRN>
+
+@{
+    ViewBag.Title = "Open MRNs";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>MRN</th>
+        <th>
+            Date
+        </th>
+        <th>
+            Chart No
+        </th>
+        <th>
+            Date Received
+        </th>
+        <th>
+            Date Completed
+        </th>
+        <th>
+            Total Pay
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Assessment
+        </th>
+        <th>
+            Company
+        </th>
+        <th>
+            Coder
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>@item.MRN1</td>
+        <td>
+            @item.Date.ToShortDateString()
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ChartNo)
+        </td>
+        <td>
+            @item.DateReceived.ToShortDateString()
+
+        </td>
+        <td>
+            @item.DateCompleted
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalPay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status1.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Assessment.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Company.Name)
+        </td>
+        <td>
+            @(item.Employee.Fname + " " + item.Employee.Lname.Substring(0, 1) + ".")
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new {id = item.MRN1.Trim()}) |
+            @Html.ActionLink("Details", "Details", new {id = item.MRN1.Trim()}) |
+            @Html.ActionLink("Delete", "Delete", new {id = item.MRN1.Trim()})
+        </td>
+    </tr>
+}
+
+</table>

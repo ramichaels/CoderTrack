@@ -4,11 +4,14 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
+
 namespace CoderTrack.Models
 {
     public class CoderModel
-
     {
+        
+        private RJAssocEntities     _context = new RJAssocEntities();
+        
         public String FirstName { get; set; }
         public String LastName { get; set; }
         public String EmailAddress { get; set; }

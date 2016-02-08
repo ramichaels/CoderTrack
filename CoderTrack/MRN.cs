@@ -23,8 +23,14 @@ namespace CoderTrack
         public Nullable<System.DateTime> DateCompleted { get; set; }
         public Nullable<decimal> TotalPay { get; set; }
         public int EmployeeId { get; set; }
+        public int StatusId { get; set; }
     
         public virtual Assessment Assessment { get; set; }
         public virtual Company Company { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual MRN MRN11 { get; set; }
+        public virtual MRN MRN2 { get; set; }
+        public virtual MRN Status { get; set; }
+        public virtual Status Status1 { get; set; }
     }
 }
